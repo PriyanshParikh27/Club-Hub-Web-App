@@ -10,7 +10,7 @@ All project artifacts are available through GitHub:
    - Already uploaded to GitHub: [Club-Hub Source Code](https://github.com/SENECA-PRJ-CLUBHUB/Club-Hub)
 
 2. **Project Technical Documents**:  
-   - Already Uploaded to GitHub: [Technical Documents](https://github.com/SENECA-PRJ-CLUBHUB/Club-Hub/tree/main/TechnicalDocuments)
+   - Already Uploaded to GitHub: [Technical Documents](https://github.com/PriyanshParikh27/Club-Hub-Web-App/tree/main/TechnicalDocuments)
 
 ## Installation Instructions
 
