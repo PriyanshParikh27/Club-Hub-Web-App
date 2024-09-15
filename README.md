@@ -7,7 +7,7 @@ Welcome to the Club-Hub project repository. This README provides an overview of 
 All project artifacts are available through GitHub:
 
 1. **Project Source Code**:  
-   - Already uploaded to GitHub: [Club-Hub Source Code](https://github.com/SENECA-PRJ-CLUBHUB/Club-Hub)
+   - Already uploaded to GitHub: [Club-Hub Source Code](https://github.com/PriyanshParikh27/Club-Hub-Web-App/)
 
 2. **Project Technical Documents**:  
    - Already Uploaded to GitHub: [Technical Documents](https://github.com/PriyanshParikh27/Club-Hub-Web-App/tree/main/TechnicalDocuments)
