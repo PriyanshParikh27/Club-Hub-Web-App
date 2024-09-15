@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Nishit Shah">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Details</title>
+    <link rel="stylesheet" href="/naruto.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+            z-index: 1000;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin-right: 20px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            background-color: #444;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar ul li a:hover,
+        .navbar ul li.active a {
+            background-color: #555;
+        }
+
+        .navbar ul li.active a {
+            pointer-events: none;
+        }
+
+        .club-details-container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .club-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .club-header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .club-header h2 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+        .club-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%; /* Optional, ensures full width of the parent container */
+}
+
+#club-photo {
+    margin-bottom: 10px; /* Adds space between the image and the name */
+}
+
+#club-name {
+    margin: 0; /* Removes default margin */
+    font-size: 50px;
+}
+
+
+        .club-description {
+            margin-bottom: 20px;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .club-description h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .club-description p {
+            font-size: 28px;
+            line-height: 1.6;
+        }
+
+        .event-list {
+            margin-bottom: 20px;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .event-list h3 {
+            font-size: 24px;
+            color: #007bff;
+        }
+
+        .review-list {
+            margin-bottom: 20px;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .review-list h3 {
+            font-size: 24px;
+            color: #007bff;
+        }
+
+        .event-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-item h4 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .event-item p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .club-actions {
+            display: flex;
+            justify-content:center;
+            margin-bottom: 20px;
+        }
+
+        .club-actions button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .join-btn {
+            background-color: #007bff;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .join-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .leave-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .leave-btn:hover {
+            background-color: #c82333;
+        }
+
+        .add-review-btn {
+            background-color: #28a745;
+            color: #fff;
+            justify-content:right;
+        }
+
+        .add-review-btn:hover {
+            background-color: #218838;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .event-cards {
+            display: flex;
+            width: 100%;
+            height: 190px;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .event-card {
+            flex: 0 0 calc(100% / 3);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            position: relative;
+            min-height: 150px;
+            padding: 15px;
+        }
+
+        .event-card h2 {
+            font-size: 20px;
+            margin: 0;
+            color: #007bff;
+        }
+
+        .event-card p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .prev,
+        .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 2;
+            border-radius: 50%;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .review-form-container {
+            display: none;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .review-form-container h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+
+        .review-form-container textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .review-form-container input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .review-form-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        .review-form-container button:hover {
+            background-color: #218838;
+        }
+
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            color: #28a745;
+            font-size: 16px;
+        }
+
+        .review-card {
+            font-size: 18px;
+            color: #333;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .review-card strong {
+            font-size: 20px;
+            color: #007bff;
+        }
+
+        .review-card small {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .review-card hr {
+            border-top: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/studentHome">Student Home</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/clubs">Clubs</a></li>
+            <li class="active"><a href="#">Club Details</a></li>
+        </ul>
+    </div>
+
+    <div class="club-details-container">
+        <div class="club-header">
+            <img id="club-photo" src="" alt="Club Photo">
+            <h2 id="club-name"></h2>
+        </div>
+        <div class="club-actions">
+            <button class="join-btn" onclick="joinClub()">Join Club</button>
+            <button class="leave-btn" onclick="leaveClub()">Leave Club</button>
+        </div>
+        <div class="club-description">
+            <h3>Club Description</h3>
+            <p id="club-description"></p>
+        </div>
+        
+        <div class="event-list">
+            <h3 style="margin-bottom: -40px;">Upcoming Events</h3>
+            <div class="carousel-container">
+                <div class="event-cards" id="event-cards"></div>
+                <button class="prev" onclick="scrollCarousel(-1)" style="margin-top: 140px;">&#10094;</button>
+                <button class="next" onclick="scrollCarousel(1)" style="margin-top: 140px;">&#10095;</button>
+            </div>
+        </div>
+        <div class="club-actions" style="justify-content:left; margin-left: 290px; margin-bottom: -28px;">
+            <button class="add-review-btn" onclick="toggleReviewForm()">Add Review</button>
+        </div>
+        <div class="review-form-container" id="review-form-container">
+            <h3>Post a Review</h3>
+            <p><strong>Club Name:</strong> <span id="clubName"></span></p>
+            <p><strong>Username:</strong> <span id="username"></span></p>
+            <textarea id="textReview" placeholder="Write your review here..." required></textarea>
+            <input type="number" id="rating" placeholder="Rating (0-10)" min="0" max="10" required>
+            <button onclick="postReview()">Post Review</button>
+            <p id="success-message" class="success-message">Review posted successfully!</p>
+        </div>
+        <div class="review-list">
+            <h3>Club Reviews</h3>
+        <div id="reviews-container"></div>
+    </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const clubId = urlParams.get('id');
+            await fetchClubDetails(clubId);
+            await fetchUpcomingEvents(clubId);
+            await fetchReviews(clubId);
+            const user = await fetchUser();
+            document.getElementById('username').textContent = user.userName;
+        });
+
+        async function fetchUser() {
+            try {
+                const response = await fetch('/api/user');
+                if (response.ok) {
+                    return await response.json();
+                } else {
+                    console.error('Failed to fetch user data');
+                    return { userName: 'Guest' };
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                return { userName: 'Guest' };
+            }
+        }
+
+        async function fetchClubDetails(clubId) {
+            try {
+                const response = await fetch(`/api/clubs/${clubId}`);
+                if (response.ok) {
+                    const club = await response.json();
+                    document.getElementById("club-photo").src = club.photo;
+                    document.getElementById("club-name").textContent = club.clubName;
+                    document.getElementById("club-description").textContent = club.description;
+                    document.getElementById("clubName").textContent = club.clubName;
+                } else {
+                    console.error("Failed to fetch club details");
+                }
+            } catch (error) {
+                console.error("Error fetching club details:", error);
+            }
+        }
+
+        async function fetchUpcomingEvents(clubId) {
+            try {
+                const response = await fetch('/api/events');
+                const events = await response.json();
+                const eventCardsContainer = document.getElementById('event-cards');
+                eventCardsContainer.innerHTML = '';
+                const clubsResponse = await fetch('/api/clubs');
+                const clubs = await clubsResponse.json();
+                const clubDetails = await (await fetch(`/api/clubs/${clubId}`)).json();
+                const clubName = clubDetails.clubName;
+
+                events.forEach(event => {
+                    const eventClub = clubs.find(club => club.clubID === event.clubID);
+                    if (eventClub && eventClub.clubName === clubName) {
+                        const card = document.createElement('div');
+                        card.classList.add('event-card');
+                        card.innerHTML = `
+                            <div class="event-details">
+                                <h2>${event.eventName}</h2>
+                                <p><strong>Date:</strong> ${event.date}</p>
+                                <p><strong>Time:</strong> ${event.time}</p>
+                                <p><strong>Location:</strong> ${event.location}</p>
+                                <p>${event.eventDescription}</p>
+                                <p><strong>Club:</strong> ${eventClub.clubName}</p>
+                            </div>
+                        `;
+                        eventCardsContainer.appendChild(card);
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching events or club details:', error);
+            }
+        }
+
+        async function joinClub() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const clubId = urlParams.get('id');
+                const response = await fetch(`/api/clubs/${clubId}/join`, { method: 'POST' });
+                if (response.ok) {
+                    alert("Successfully joined the club!");
+                } else {
+                    alert("Failed to join the club. Already a member of the club.");
+                }
+            } catch (error) {
+                console.error("Error joining club:", error);
+            }
+        }
+
+        async function leaveClub() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const clubId = urlParams.get('id');
+                const response = await fetch(`/api/clubs/${clubId}/leave`, { method: 'POST' });
+                if (response.ok) {
+                    alert("Successfully left the club!");
+                } else {
+                    alert("Failed to leave the club.");
+                }
+            } catch (error) {
+                console.error("Error leaving club:", error);
+            }
+        }
+
+        function toggleReviewForm() {
+            const formContainer = document.getElementById('review-form-container');
+            formContainer.style.display = formContainer.style.display === 'none' || formContainer.style.display === '' ? 'flex' : 'none';
+        }
+
+        async function postReview() {
+            const username = document.getElementById('username').textContent;
+            const textReview = document.getElementById('textReview').value;
+            const rating = document.getElementById('rating').value;
+            const clubName = document.getElementById('club-name').textContent;
+
+            const review = {
+                reviewerName: username,
+                reviewText: textReview,
+                rating: Number(rating),
+                clubName: clubName // Ensure clubName is included
+            };
+
+            try {
+                const response = await fetch('/api/reviews', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(review),
+                });
+
+                if (response.ok) {
+                    const newReview = await response.json();
+                    if (newReview.clubName === clubName) { // Check if the review matches the current club
+                        displayReview(newReview);
+                    }
+                    document.getElementById('success-message').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('success-message').style.display = 'none';
+                    }, 3000);
+                } else {
+                    console.error("Failed to post review:", await response.text());
+                }
+            } catch (error) {
+                console.error("Error posting review:", error);
+            }
+        }
+
+
+        async function displayReview(review) {
+            const reviewsContainer = document.getElementById('reviews-container');
+            const clubName = document.getElementById('club-name').textContent;
+
+            // Only display the review if it matches the current club's name
+            if (review.clubName === clubName) {
+                const reviewElement = document.createElement('div');
+                reviewElement.classList.add('review-card');
+                reviewElement.innerHTML = `
+            <strong  style="color: #444;">${review.reviewerName}</strong> (Rating: ${review.rating}/10) - Club: ${review.clubName}: ${review.reviewText}
+            <br>
+            <small>${new Date(review.createdAt).toLocaleString()}</small>
+            <hr>
+        `;
+                reviewsContainer.appendChild(reviewElement);
+            }
+        }
+
+        async function fetchReviews(clubId) {
+            try {
+                // Fetch club details to get the club name
+                const clubDetailsResponse = await fetch(`/api/clubs/${clubId}`);
+                if (!clubDetailsResponse.ok) {
+                    throw new Error("Failed to fetch club details");
+                }
+                const clubDetails = await clubDetailsResponse.json();
+                const clubName = clubDetails.clubName;
+
+                // Fetch reviews for the specific club
+                const reviewsResponse = await fetch(`/api/reviews?clubName=${clubName}`);
+                if (reviewsResponse.ok) {
+                    const reviews = await reviewsResponse.json();
+                    const reviewsContainer = document.getElementById('reviews-container');
+                    reviewsContainer.innerHTML = ''; // Clear previous reviews
+                    reviews.forEach(review => {
+                        // Only display reviews for the current club
+                        if (review.clubName === clubName) {
+                            displayReview(review);
+                        }
+                    });
+                } else {
+                    console.error("Error fetching reviews:", reviewsResponse.statusText);
+                }
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        }
+
+        function scrollCarousel(direction) {
+            const container = document.getElementById('event-cards');
+            container.scrollBy({
+                left: direction * container.clientWidth,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Nishit Shah">
+    <title>Club Hub</title>
+    <link rel="stylesheet" href="/naruto.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico">
+    <script src="https://apis.google.com/js/api.js"></script> <!-- Google API Client Library -->
+    <script src="/public/code.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/user')
+                .then(response => {
+                    if (!response.ok) {
+                        window.location.href = '/signInPage';
+                    }
+                })
+                .catch(() => {
+                    window.location.href = '/signInPage';
+                });
+        });
+
+        window.onpageshow = function (event) {
+            if (event.persisted) {
+                window.location.href = '/signInPage';
+            }
+        };
+    </script>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            background-color: #444;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar ul li a:hover,
+        .navbar ul li.active a {
+            background-color: #555;
+        }
+
+        .masthead {
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        .masthead h1 {
+            font-size: 2.5em;
+        }
+
+        .event-details {
+            margin-bottom: 30px;
+        }
+
+        .add-to-calendar {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: #4285f4;
+            color: #fff;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .add-to-calendar:hover {
+            transform: scale(1.2);
+        }
+
+        .add-to-calendar-text {
+            position: absolute;
+            bottom: -30px;
+            right: 50%;
+            background-color: #555;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s ease, bottom 0.2s ease;
+            transform: translateX(50%);
+        }
+
+        .add-to-calendar:hover .add-to-calendar-text {
+            opacity: 1;
+            bottom: -40px;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            width: 80%;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        .event-cards {
+            display: flex;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            height: 250px;
+        }
+
+        .event-card {
+            flex: 0 0 calc(100% / 3);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            position: relative;
+            min-height: 150px;
+            padding: 15px;
+        }
+
+        .event-card h2 {
+            font-size: 20px;
+            margin: 0;
+            color: #007bff;
+        }
+
+        .event-card p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .prev,
+        .next {
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 2;
+            border-radius: 50%;
+        }
+
+        .prev {
+            margin-left: 140px;
+            margin-right: -140px;
+            margin-bottom: -50px;
+        }
+
+        .next {
+            margin-right: 100px;
+            margin-left: -100px;
+            margin-bottom: -50px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+            margin-top: 10px;
+        }
+
+        .user-info img {
+            width: 150px;
+            height: 150px;
+            border: 2px solid #ccc;
+            border-radius: 80px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .welcome-text {
+            font-size: 3em;
+            margin-right: 15px;
+            font-family: "Arial Rounded MT Bold", "Arial Rounded", Arial, sans-serif;
+        }
+
+        .welcome-text2 {
+            font-size: 3em;
+            font-family: "Arial Rounded MT Bold", "Arial Rounded", Arial, sans-serif;
+        }
+
+        .user-info .username {
+            font-size: 3em;
+            color: rgb(70, 70, 246);
+            font-family: "Comic Sans MS", "Comic Sans", sans-serif;
+            font-weight: bold;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 50px;
+        }
+
+        .footer {
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            padding: 3px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            height: 70px;
+        }
+
+
+        .club-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .club-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: calc(100% / 3 - 40px);
+            transition: transform 0.2s;
+            text-align: center;
+        }
+
+        .club-card:hover {
+            transform: scale(1.05);
+        }
+
+        .club-card img {
+            width: 130px;
+            height: 130px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .club-card h3 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .club-card p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .details-btn {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .details-btn:hover {
+            background-color: #0056b3;
+        }
+
+        h3 {
+            align-self: center;
+            font-size: 24px;
+            margin-top: 30px;
+            color: #ca0707;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="navbar">
+            <div class="container">
+                <ul class="navbar-menu">
+                    <li class="club-hub links"><a href="#">Club Hub</a></li>
+                    <li class="active links"><a href="/studentHome">Home</a></li>
+                    <li class="links"><a href="/clubs">Clubs</a></li>
+                    <li class="links"><a href="/events">Events</a></li>
+                    <li class="links"><a href="/home">Sign Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-info">
+        <img id="user-photo" src="" alt="User Photo">
+        <div class="welcome-text">Welcome</div>
+        <div class="username" id="user-name"></div>
+        <div class="welcome-text2">!</div>
+    </div>
+
+    <header class="masthead">
+        <p class="masthead-intro">&nbsp;</p>
+        <h1 class="masthead-heading">Maple Leaf High School</h1>
+    </header>
+
+    <h3 style="margin-bottom: -20px;">Upcoming Events</h3>
+    <div class="content">
+        
+        <div class="center-container">
+            <button class="prev" onclick="scrollCarousel(-1)">&#10094;</button>
+            <div class="carousel-container">
+                <div class="event-cards" id="event-cards"></div>
+                    
+            </div>
+            <button class="next" onclick="scrollCarousel(1)">&#10095;</button>
+        </div>
+        
+        <!-- Add Student's Clubs Here-->
+        
+    </div>
+    <h3 style="margin-top: -20px;">Your Clubs</h3>
+        <div class="club-list" id="club-list"></div>
+
+</br></br></br></br>
+
+    <footer class="footer">
+        <p>Stay tuned for future updates, till then, you can contact us on:</p>
+        <ul class="social">
+            <li><a class="css-is-deranged" href="mailto:ysingh64@myseneca.ca" style="color: #ca0707;">ysingh64@myseneca.ca</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const eventsResponse = await fetch('/api/events');
+                const events = await eventsResponse.json();
+                const clubsResponse = await fetch('/api/clubs');
+                const clubs = await clubsResponse.json();
+                const eventCardsContainer = document.getElementById('event-cards');
+
+                events.forEach(event => {
+                    const club = clubs.find(club => club.clubID === event.clubID);
+                    const card = document.createElement('div');
+                    card.classList.add('event-card');
+                    card.innerHTML = `
+                        <div class="event-details">
+                            <h2>${event.eventName}</h2>
+                            <p><strong>Date:</strong> ${event.date}</p>
+                            <p><strong>Time:</strong> ${event.time}</p>
+                            <p><strong>Location:</strong> ${event.location}</p>
+                            <p>${event.eventDescription}</p>
+                            <p><strong>Club:</strong> ${club ? club.clubName : 'Unknown'}</p>
+                        </div>
+                    `;
+                    eventCardsContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error fetching events or clubs:', error);
+            }
+
+            try {
+                const userResponse = await fetch('/api/user');
+                const userData = await userResponse.json();
+                document.getElementById('user-photo').src = userData.photo;
+                document.getElementById('user-name').textContent = userData.userName;
+
+                // Fetch the user's clubs and display them
+                const userClubsResponse = await fetch(`/api/students/${userData.userName}/clubs`);
+                const userClubs = await userClubsResponse.json();
+                const clubListContainer = document.getElementById('club-list');
+
+                userClubs.forEach(club => {
+                    const clubCard = document.createElement('div');
+                    clubCard.classList.add('club-card');
+                    clubCard.innerHTML = `
+                        <img src="${club.photo}" alt="${club.clubName}">
+                        <h3 style="color: #0056b3;">${club.clubName}</h3>
+                        <p><strong>Category:</strong> ${club.category}</p>
+                        <br>
+                        <button class="details-btn" onclick="redirectToClubDetails('${club._id}')">Details</button>
+                    `;
+                    clubListContainer.appendChild(clubCard);
+                });
+            } catch (error) {
+                console.error('Error fetching user or user clubs:', error);
+            }
+        });
+
+        function scrollCarousel(direction) {
+            const container = document.getElementById('event-cards');
+            container.scrollBy({
+                left: direction * container.clientWidth,
+                behavior: 'smooth'
+            });
+        }
+
+        function addToCalendar(eventName, eventDate, eventTime, eventLocation, eventDescription) {
+            const formattedDate = eventDate.replace(/-/g, '') + 'T' + eventTime.replace(/:/g, '') + 'Z';
+            const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventName)}&dates=${formattedDate}/${formattedDate}&details=${encodeURIComponent(eventDescription)}&location=${encodeURIComponent(eventLocation)}`;
+            window.open(googleCalendarUrl, '_blank');
+        }
+
+        function redirectToClubDetails(id) {
+            window.location.href = `/clubDetails?id=${id}`;
+        }
+    </script>
+</body>
+
+</html>
